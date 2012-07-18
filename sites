@@ -10,18 +10,6 @@ if [ $(whoami) != "root" ];
   exit 1
 fi
 
-# get the name of this very script
-scriptName=$0
-configName=$scriptName.config
-# check if our config exists
-if [ ! -e $configName ];
-  then
-  echo "File `basename $configName` not found.  Exiting..."
-  exit 1
-fi
-# include our config
-source $configName
-
 # parse arguments
 TEMP=`getopt -o hs: --long help,mysql-password: \
      -n \`basename $0\` -- "$@"`
@@ -59,17 +47,4 @@ fi
 
 apt-get install puppet-common;
 
-# ensure each site
-i=0
-while [ $i -lt ${#sites[@]} ]
-do
-  site=${sites[$i]}
-  siteLen=${#site}
-  target=${dirMap[$sites[$i]]}${1:$siteLen}
-  
-  printf "Installing site $site at $target\n";
-  # pass MySql pwd to puppet as a variable;
-  #FACTER_mysqlpwd=$MYSQL_PWD puppet apply lampanddrupal.pp
-
-  let "i= $i + 1"
-done
+FACTER_mysqlpwd=$MYSQL_PWD puppet apply mysites.pp

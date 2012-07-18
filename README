@@ -30,9 +30,9 @@ Usage:
   sudo ./install -s<YourRootMySqlPwd>
 After this http://localhost/phpmyadmin/ should work.
 
-sites and sites.config
-----------------------
-Edit sites.config to include your sites and configure their source origin and which contributed modules they require.
+mysites.pp and sites
+--------------------
+Edit mysites.pp to include your sites and configure their source origin and which contributed modules they require.
 Once done simply run:
   sudo ./sites
 This script can be run over and over again.
