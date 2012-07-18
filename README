@@ -1,1 +1,30 @@
 Series of scripts to make multisite Drupal development on local machine easier.
+
+These scripts will work on Ubuntu. Other distributions may need some modifications.
+
+License:
+========
+None at all. Do whatever you want with this.
+
+Warranty:
+=========
+Absolutely none! Zero. Zilch.
+You are responsible for whatever you do!
+
+Why Puppet?
+===========
+Because Puppet defines and maintains the state of your machine.
+This way the scripts may be run many times over without breaking anything.
+Why not Puppet modules then?: Because I'm lazy.
+
+Scripts:
+========
+All scripts myst unfortunatlly be run from their own directory. This is due to the fact that Puppet does not support relative paths.
+
+install.sh
+----------
+This will install LAMP+Drupal+Drush.
+This script should only be required once in a life time.
+Usage:
+  sudo ./install.sh -h
+After this http://localhost/phpmyadmin/ should work.
