@@ -36,3 +36,4 @@ Edit mysites.pp to include your sites and configure their source origin and whic
 Once done simply run:
   sudo ./sites
 This script can be run over and over again.
+When each site is created Drupal user admin/admin is created and MySql user sitename/<random_generated_pwd> is created.
