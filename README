@@ -19,7 +19,7 @@ Why not Puppet modules then?: Because I'm lazy.
 
 Scripts:
 ========
-All scripts myst unfortunatlly be run from their own directory. This is due to the fact that Puppet does not support relative paths.
+All scripts must unfortunatlly be run from their own directory. This is due to the fact that Puppet does not support relative paths.
 
 install.sh
 ----------
