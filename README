@@ -27,4 +27,5 @@ This will install LAMP+Drupal+Drush.
 This script should only be required once in a life time.
 Usage:
   sudo ./install.sh -h
+  sudo ./install.sh -s<YourRootMySqlPwd>
 After this http://localhost/phpmyadmin/ should work.
