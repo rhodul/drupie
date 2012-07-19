@@ -23,11 +23,11 @@ All scripts must unfortunatlly be run from their own directory. This is due to t
 
 install
 -------
-This will install LAMP+Drupal+Drush.
+This will install LAMP+myPhpAdmin+Puppet and configure them.
 This script should only be required once in a life time.
 Usage:
-  sudo ./install -h
-  sudo ./install -s<YourRootMySqlPwd>
+  sudo ./install
+Read and follow the prompts.
 After this http://localhost/phpmyadmin/ should work.
 
 mysites.pp and sites
