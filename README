@@ -30,14 +30,11 @@ Usage:
 Read and follow the prompts.
 After this http://localhost/phpmyadmin/ should work.
 
-mysites.pp and sites
---------------------
-Edit mysites.pp to include your sites and configure their source origin and which contributed modules they require.
+mysite.pp
+---------
+Mysite.pp is a template to define your own site. Make a copy and edit to your liking. Also you should keep this file in your git.
 Once done simply run:
-  sudo ./sites
-This script can be run over and over again.
-When each site is created Drupal user admin/admin is created and MySql user sitename/<random_generated_pwd> is created.
-
-FACTER_mysqlpwd=<bigsecret> puppet apply mysite.pp
-or
-puppet apply mysite.pp
+  sudo FACTER_mysqlpwd=<bigsecret> puppet apply mysite.pp
+This will ensure Drupal files and everything AND will INSTALL drupal. That's why MySql root's password is provided.
+Once Drupal is installed, you can simply run the following over and over again:
+  sudo puppet apply mysite.pp
