@@ -14,6 +14,8 @@ read -p "Press Enter to continue..."
 nano /etc/apache2/sites-available/default;
 
 apt-get install drush phpmyadmin;
+/usr/sbin/a2enmod rewrite;
+/usr/sbin/a2enmod userdir;
 /etc/init.d/apache2 restart;
 
 #TODO: Copy puppet scripts where they belong so it can be used.
