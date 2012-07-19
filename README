@@ -1,4 +1,4 @@
-Series of scripts to make multisite Drupal development on local machine easier.
+Series of scripts to make multi-install Drupal development on local machine easier.
 
 These scripts will work on Ubuntu. Other distributions may need some modifications.
 
@@ -37,3 +37,7 @@ Once done simply run:
   sudo ./sites
 This script can be run over and over again.
 When each site is created Drupal user admin/admin is created and MySql user sitename/<random_generated_pwd> is created.
+
+FACTER_mysqlpwd=<bigsecret> puppet apply mysite.pp
+or
+puppet apply mysite.pp

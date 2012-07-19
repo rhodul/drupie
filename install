@@ -15,3 +15,5 @@ nano /etc/apache2/sites-available/default;
 
 apt-get install drush phpmyadmin;
 /etc/init.d/apache2 restart;
+
+#TODO: Copy puppet scripts where they belong so it can be used.
