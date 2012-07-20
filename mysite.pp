@@ -26,6 +26,6 @@ site {"site1":
   # the list is simple space delimited string;
   # the reason for separation is that one downloaded
   # contributed code may have multiple modules, like
-  # services, for example, brings rest_server and xmlrpc_server;
-  installcontribmodules => 'ctools services rest_server xmlrpc_server',
+  # services, for example, brings and xmlrpc_server;
+  installcontribmodules => 'ctools services xmlrpc_server',
 }

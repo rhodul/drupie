@@ -44,6 +44,13 @@ define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlib
 			timeout => 0,
 			require => File["movedrupal${sitename}"],
 		}
+	} else {
+		# dummy command just to have this resource for later when we install
+		# contributed modules
+		exec { "installsite${sitename}":
+			path => ['/usr/bin/', '/bin/'],
+			command => "echo ''",
+		}
 	}
 
 	# create a link(s) in Drupal to target
@@ -79,7 +86,7 @@ define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlib
 		exec { "installmodule${sitename}":
 			path => ['/usr/bin/php', '/usr/bin/', '/bin/', '/bin/bash'],
 			command => "drush -y en ${installcontribmodules}",
-			cwd => "/var/www/${sitename}",
+			cwd => "/var/www/${sitename}/",
 			timeout => 0,
 		}
 	}
