@@ -1,4 +1,4 @@
-define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlibsdir = undef, $drupalversion = undef) {
+define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlibsdir = undef, $drupalversion = undef, $downloadcontribmodules = undef, $installcontribmodules = undef) {
 	# do we have a version?
 	$drupal = 'drupal'
 	if $drupalversion != undef {
@@ -68,4 +68,30 @@ define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlib
 		}
 	}
 	
+	# install each of the contributed modules
+	if $downloadcontribmodules != undef and $installcontribmodules != undef {
+		$dwlds = split($downloadcontribmodules, ' ')
+		contribmodule{$dwlds:
+			sitename => $sitename,
+      require => Exec["installsite${sitename}"],
+      before => Exec["installmodule${sitename}"],
+		}
+		exec { "installmodule${sitename}":
+			path => ['/usr/bin/php', '/usr/bin/', '/bin/', '/bin/bash'],
+			command => "drush -y en ${installcontribmodules}",
+			cwd => "/var/www/${sitename}",
+			timeout => 0,
+		}
+	}
+	
+}
+
+define contribmodule ($modulename = $title, $sitename) {
+	exec { "getmodule${title}${sitename}":
+		path => ['/usr/bin/php', '/usr/bin/', '/bin/', '/bin/bash'],
+		command => "drush dl ${modulename}",
+		cwd => "/var/www/${sitename}/sites/all/modules/",
+		creates => '/var/www/${sitename}/sites/all/modules/${modulename}',
+    timeout => 0,
+	}
 }
