@@ -1,4 +1,4 @@
-define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlibsdir = undef, $drupalversion = undef, $downloadcontribmodules = undef, $installcontribmodules = undef) {
+define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlibsdir = undef, $drupalversion = undef, $downloadcontribmodules = undef, $installcontribmodules = undef, $downloadcontribthemes = undef, $installcontribthemes = undef, $defaultcontribtheme = undef) {
 	# do we have a version?
 	$drupal = 'drupal'
 	if $drupalversion != undef {
@@ -80,6 +80,7 @@ define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlib
 		$dwlds = split($downloadcontribmodules, ' ')
 		contribmodule{$dwlds:
 			sitename => $sitename,
+			landingdir => 'modules',
       require => Exec["installsite${sitename}"],
       before => Exec["installmodule${sitename}"],
 		}
@@ -91,14 +92,42 @@ define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlib
 		}
 	}
 	
+	# install each of the contributed themes
+	if $downloadcontribthemes != undef {
+		$dwldst = split($downloadcontribthemes, ' ')
+		contribmodule{$dwldst:
+			sitename => $sitename,
+			landingdir => 'themes',
+      require => Exec["installsite${sitename}"],
+      before => Exec["installtheme${sitename}"],
+		}
+		if $installcontribthemes != undef {
+			exec { "installtheme${sitename}":
+				path => ['/usr/bin/php', '/usr/bin/', '/bin/', '/bin/bash'],
+				command => "drush -y en ${installcontribthemes}",
+				cwd => "/var/www/${sitename}/",
+				timeout => 0,
+			}
+			if $defaultcontribtheme != undef {
+				exec { "defaultheme${sitename}":
+					path => ['/usr/bin/php', '/usr/bin/', '/bin/', '/bin/bash'],
+					command => "drush -y vset theme_default ${defaultcontribtheme}",
+					cwd => "/var/www/${sitename}/",
+					timeout => 0,
+		      require => Exec["installtheme${sitename}"],
+				}
+			}
+		}
+	}
+	
 }
 
-define contribmodule ($modulename = $title, $sitename) {
+define contribmodule ($modulename = $title, $sitename, $landingdir) {
 	exec { "getmodule${title}${sitename}":
 		path => ['/usr/bin/php', '/usr/bin/', '/bin/', '/bin/bash'],
 		command => "drush dl ${modulename}",
-		cwd => "/var/www/${sitename}/sites/all/modules/",
-		creates => '/var/www/${sitename}/sites/all/modules/${modulename}',
+		cwd => "/var/www/${sitename}/sites/all/${landingdir}/",
+		creates => '/var/www/${sitename}/sites/all/${landingdir}/${modulename}',
     timeout => 0,
 	}
 }

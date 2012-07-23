@@ -28,4 +28,12 @@ site {"site1":
   # contributed code may have multiple modules, like
   # services, for example, brings and xmlrpc_server;
   installcontribmodules => 'ctools services xmlrpc_server',
+
+  # themese; same rules as for modules
+  downloadcontribthemes => 'fusion',
+  # separation of download and install is because
+  # to be able to inherit from a theme it must be present
+  # but doesn't have to be installed
+  installcontribthemes => 'fusion_starter',
+  defaultcontribtheme => 'fusion_starter',
 }
