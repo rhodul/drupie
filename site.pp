@@ -1,4 +1,4 @@
-define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlibsdir = undef, $drupalversion = undef, $downloadcontribmodules = undef, $installcontribmodules = undef, $downloadcontribthemes = undef, $installcontribthemes = undef, $defaultcontribtheme = undef) {
+define drupie::site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlibsdir = undef, $drupalversion = undef, $downloadcontribmodules = undef, $installcontribmodules = undef, $downloadcontribthemes = undef, $installcontribthemes = undef, $defaultcontribtheme = undef) {
 	# do we have a version?
 	$drupal = 'drupal'
 	if $drupalversion != undef {
@@ -78,7 +78,7 @@ define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlib
 	# install each of the contributed modules
 	if $downloadcontribmodules != undef and $installcontribmodules != undef {
 		$dwlds = split($downloadcontribmodules, ' ')
-		contribmodule{$dwlds:
+		drupie::contribmodule{$dwlds:
 			sitename => $sitename,
 			landingdir => 'modules',
       require => Exec["installsite${sitename}"],
@@ -95,7 +95,7 @@ define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlib
 	# install each of the contributed themes
 	if $downloadcontribthemes != undef {
 		$dwldst = split($downloadcontribthemes, ' ')
-		contribmodule{$dwldst:
+		drupie::contribmodule{$dwldst:
 			sitename => $sitename,
 			landingdir => 'themes',
       require => Exec["installsite${sitename}"],
@@ -120,14 +120,4 @@ define site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlib
 		}
 	}
 	
-}
-
-define contribmodule ($modulename = $title, $sitename, $landingdir) {
-	exec { "getmodule${title}${sitename}":
-		path => ['/usr/bin/php', '/usr/bin/', '/bin/', '/bin/bash'],
-		command => "drush dl ${modulename}",
-		cwd => "/var/www/${sitename}/sites/all/${landingdir}/",
-		creates => '/var/www/${sitename}/sites/all/${landingdir}/${modulename}',
-    timeout => 0,
-	}
 }

@@ -18,4 +18,8 @@ apt-get install drush phpmyadmin;
 /usr/sbin/a2enmod userdir;
 /etc/init.d/apache2 restart;
 
-#TODO: Copy puppet scripts where they belong so it can be used.
+# install puppet scripts
+PP_PATH=/usr/share/puppet/modules/drupie/manifests;
+mkdir -p $PP_PATH;
+cp site.pp $PP_PATH;
+cp contribmodule.pp $PP_PATH;

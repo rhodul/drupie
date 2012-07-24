@@ -1,7 +1,7 @@
 # this is the only file you need to edit to configure
 # your own site;
 # make one copy for each site and stick it in your git for future
-site {"site1":
+drupie::site {"site1":
   # if this is not set, the latest release of Drupal is installed
   #drupalversion => '7.14',
 
