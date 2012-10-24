@@ -1,4 +1,4 @@
-define drupie::site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlibsdir = undef, $drupalversion = undef, $downloadcontribmodules = undef, $installcontribmodules = undef, $downloadcontribthemes = undef, $installcontribthemes = undef, $defaultcontribtheme = undef) {
+define drupie::site ($sitename = $title, $custommodulesdir, $customthemesdir, $customlibsdir = undef, $drupalversion = undef, $downloadcontribmodules = undef, $installcontribmodules = undef, $downloadcontribthemes = undef, $installcontribthemes = undef, $defaultcontribtheme = undef, $disablemodules = undef) {
 	# do we have a version?
 	$drupal = 'drupal'
 	if $drupalversion != undef {
@@ -117,6 +117,17 @@ define drupie::site ($sitename = $title, $custommodulesdir, $customthemesdir, $c
 		      require => Exec["installtheme${sitename}"],
 				}
 			}
+		}
+	}
+	
+	# disable unwanted modules
+	if $disablemodules != undef {
+		exec { "disablemodules${sitename}":
+			path => ['/usr/bin/php', '/usr/bin/', '/bin/', '/bin/bash'],
+			command => "drush -y dis ${disablemodules}",
+			cwd => "/var/www/${sitename}/",
+			timeout => 0,
+			require => Exec["installsite${sitename}"],
 		}
 	}
 	

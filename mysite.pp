@@ -29,11 +29,16 @@ drupie::site {"site1":
   # services, for example, brings and xmlrpc_server;
   installcontribmodules => 'ctools services xmlrpc_server',
 
-  # themese; same rules as for modules
+  # themes; same rules as for modules
   downloadcontribthemes => 'fusion',
   # separation of download and install is because
   # to be able to inherit from a theme it must be present
   # but doesn't have to be installed
   installcontribthemes => 'fusion_starter',
   defaultcontribtheme => 'fusion_starter',
+  
+  # a list of modules and/or themes to disable
+  # (for example, default Drupal install enables
+  #  module 'toolbar' and we may not want it)
+  disablemodules => 'toolbar',
 }
