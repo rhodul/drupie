@@ -45,3 +45,5 @@ Run this if you want to update existing contributed module.
 This will update module 'ctools' on 'site1':
   sudo updatemodule site1 ctools
 It will also create a file ~\site1(current date and time).sql which is a DB dump before the module update.
+To update drupal core itself run:
+  sudo updatemodule site1 drupal
