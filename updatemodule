@@ -1,0 +1,43 @@
+#!/bin/bash
+
+usage() {
+  printf "Usage: `basename $0` <site> <module>\n";
+}
+
+if [ $(whoami) != "root" ];
+  then
+  printf "Warning: `basename $0` must be run by root.  Exiting...\n";
+  exit 1
+fi
+
+
+if [ $# -ne 2 ]
+then
+  usage;
+  exit 0;
+fi
+
+SITE_NAME="$1";
+MODULE_NAME="$1";
+
+if [ "$SITE_NAME" == "" ];
+  then
+  printf "Error: Site name is required.\n";
+  usage;
+  exit 1
+fi
+
+if [ "$MODULE_NAME" == "" ];
+  then
+  printf "Error: Module name is required. If you want to update Drupal core type drupal as a module name.\n";
+  usage;
+  exit 1
+fi
+
+# get to the right site
+cd /var/www/$SITE_NAME;
+# first backup DB
+drush sql-dump >  ~/"$SITE_NAME(`date`).sql";
+chmod 666 ~/"$SITE_NAME(`date`).sql"
+# and now update module
+drush up $MODULE_NAME;
